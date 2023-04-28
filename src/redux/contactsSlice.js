@@ -1,10 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  fetchContacts,
-  addContact,
-  deleteContact,
-} from 'redux/Operations/operations';
-
+import { fetchContacts, addContact, deleteContact } from './operations';
 const handlePeding = state => {
   state.isLoaging = true;
 };

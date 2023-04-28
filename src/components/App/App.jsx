@@ -1,18 +1,50 @@
-import { ContactList } from 'components/ContactList/ContactList';
-import { Filter } from 'components/Filter/Filter';
-import { ContactsForm } from 'components/Form/ContactForm';
-import styles from './App.module.css';
+import { Layout } from 'components/Layout';
+import PrivateRoute from 'components/PrivateRoute';
+import RestrictedRoute from 'components/RestrictedRouter';
+import { useAuth } from 'hooks';
+import { useEffect } from 'react';
+import { lazy } from 'react';
+import { useDispatch } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
+import { refreshUser } from 'redux/operations';
+
+const Home = lazy(() => import('../../pages/Home/Home'));
+const Register = lazy(() => import('../../pages/Register/Register'));
+const Login = lazy(() => import('../../pages/Login/Login'));
+const PhoneBook = lazy(() => import('../../pages/PhoneBook/PhoneBook'));
 
 export const App = () => {
-  return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>Phone book</h2>
-      <ContactsForm />
-      <h2 className={styles.title}>Contacts</h2>
-      <div className={styles.contactListContainer}>
-        <Filter />
-        <ContactList />
-      </div>
-    </div>
+  const dispatch = useDispatch();
+  const { isRefreshing } = useAuth();
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+  return isRefreshing ? (
+    <b>Loading...</b>
+  ) : (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute redirectTo="/contacts" component={<Register />} />
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute redirectTo="/contacts" component={<Login />} />
+          }
+        />
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute redirectTo="/login" component={<PhoneBook />} />
+          }
+        />
+      </Route>
+    </Routes>
   );
 };

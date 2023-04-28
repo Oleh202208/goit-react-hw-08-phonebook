@@ -1,10 +1,10 @@
 import { ContactItem } from 'components/ContactItem/ContactItem';
 import { useDispatch } from 'react-redux';
-import styles from './ContactList.module.css';
 import PropTypes from 'prop-types';
 import { useContacts } from 'hooks/useContacts';
 import { useEffect } from 'react';
-import { fetchContacts, deleteContact } from 'redux/Operations/operations';
+import { fetchContacts, deleteContact } from 'redux/operations';
+import { List } from './ContactList.styled';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
@@ -15,17 +15,17 @@ export const ContactList = () => {
   }, [dispatch]);
 
   return (
-    <ul className={styles.list}>
-      {filteredContacts.map(({ name, phone, id }) => (
+    <List>
+      {filteredContacts.map(({ name, number, id }) => (
         <ContactItem
           id={id}
           key={id}
           name={name}
-          phone={phone}
+          number={number}
           onDeleteContact={() => dispatch(deleteContact(id))}
         />
       ))}
-    </ul>
+    </List>
   );
 };
 
@@ -34,7 +34,7 @@ ContactList.propTypes = {
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
-      phone: PropTypes.string,
+      number: PropTypes.string,
     })
   ),
   onDeleteContact: PropTypes.func,
