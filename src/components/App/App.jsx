@@ -1,7 +1,7 @@
 import { Layout } from 'components/Layout';
 import PrivateRoute from 'components/PrivateRoute';
 import RestrictedRoute from 'components/RestrictedRouter';
-import { useAuth } from 'hooks';
+import { useAuth } from 'hooks/useAuth';
 import { useEffect } from 'react';
 import { lazy } from 'react';
 import { useDispatch } from 'react-redux';
@@ -20,6 +20,7 @@ export const App = () => {
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
+
   return isRefreshing ? (
     <b>Loading...</b>
   ) : (
