@@ -10,7 +10,7 @@ export const selectError = state => state.contacts.error;
 export const selectIsContactsEmpty = state =>
   selectAllContacts(state).length === 0;
 
-export const selectFilter = state => state.filter.value;
+export const selectFilter = state => state.filter;
 
 export const selectFilteredContacts = createSelector(
   [selectAllContacts, selectFilter],
