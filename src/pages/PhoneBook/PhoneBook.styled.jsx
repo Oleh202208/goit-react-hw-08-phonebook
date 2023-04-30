@@ -10,6 +10,7 @@ export const ContainerBook = styled.div`
   margin: 0 auto;
   padding: 20px;
   background-color: #f8f8f8;
+  width: 300px;
 `;
 
 export const ContactListContainer = styled.div`
